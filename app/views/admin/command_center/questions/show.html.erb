@@ -1,0 +1,19 @@
+<b>Question:</b>
+<p>
+  <%= @question.text %>
+</p>
+<br><br>
+<b>Answer:</b>
+<p>
+  <%= @question.answer %>
+</p>
+<br><br>
+<%= form_for @question, :url => admin_command_center_question_answers_path(@question), :method => :create do %>
+  <%= hidden_field_tag :correct_answer, true %>
+  <%= submit_tag "Answered Correctly" %>
+<% end %>
+<br><br><br>
+<%= form_for @question, :url => admin_command_center_question_answers_path(@question), :method => :create do %>
+  <%= hidden_field_tag :correct_answer, false %>
+  <%= submit_tag "Answered Wrong" %>
+<% end %>
