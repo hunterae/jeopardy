@@ -40,14 +40,14 @@
   <tr>
     <% @teams.each do |team| %>
       <td>
-        <%= link_to "Correct", show_topic_admin_dashboard_path(:id => team.id), :class => "btn btn-primary btn-large btn-success", :style => "width: 50px" %>
+        <%= link_to "Correct", admin_command_center_topic_path(:id => team.id), :class => "btn btn-primary btn-large btn-success", :style => "width: 50px" %>
       </td>
     <% end %>
   </tr>
   <tr>
     <% @teams.each do |team| %>
       <td>
-        <%= link_to "Wrong", show_topic_admin_dashboard_path(:id => team.id), :class => "btn btn-primary btn-large btn-danger", :style => "width: 50px" %>
+        <%= link_to "Wrong", admin_command_center_topic_path(:id => team.id), :class => "btn btn-primary btn-large btn-danger", :style => "width: 50px" %>
       </td>
     <% end %>
   </tr>

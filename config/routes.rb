@@ -8,9 +8,9 @@ Jeopardy::Application.routes.draw do
       resources :topics, :only => :show
       root :to => "command_center#index"
     end
-    resource :dashboard, :controller => "dashboard", :only => :show do
+    # resource :dashboard, :controller => "dashboard", :only => :show do
       # get :show_topic
-    end
+    # end
   end
   root :to => 'board#show'
 end
