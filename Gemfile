@@ -2,7 +2,6 @@ source 'https://rubygems.org'
 
 gem 'rails', '3.2.7'
 
-gem 'mysql2'
 gem 'json'
 gem 'jquery-rails'
 # gem 'therubyracer'
@@ -23,4 +22,9 @@ group :development, :test do
   gem 'debugger'
   gem 'timecop'
   gem 'capistrano'
+  gem 'mysql2'
+end
+
+group :production do
+  gem 'pg'
 end
