@@ -11,8 +11,15 @@ window.Board =
     channel = pusher.subscribe("jeopardy")
 
     channel.bind "start-game", (data) ->
+      self.playSoundEffect("http://soundfxnow.com/soundfx/Jeopardy-boardfill.mp3")
       $("#title-image").hide()
       $("#dashboard").show()
+
+    channel.bind "out-of-time", (data) ->
+      self.playSoundEffect("http://soundfxnow.com/soundfx/Jeopardy-time.mp3")
+
+    channel.bind "play-game-music", (data) ->
+      self.playSoundEffect("http://home.arcor.de/eilertzj/Blogg/Profil/dumdidum.mp3")
 
     channel.bind "end-game", (data) ->
       window.location = "/winner"
@@ -20,6 +27,7 @@ window.Board =
     channel.bind "show-question", (data) ->
       $("#question-" + data.id).html("")
       if data.daily_double
+        self.playSoundEffect("http://soundfxnow.com/soundfx/Jeopardy-daily2x.mp3")
         $.colorbox
           href: "/assets/daily_double.jpg"
           open: true
@@ -30,8 +38,10 @@ window.Board =
 
     channel.bind "show-answer", (data) ->
       if data.correct_answer == "true"
+        self.playSoundEffect("http://soundfxnow.com/soundfx/GameshowBellDing2.mp3")
         $("#question").append("<br><br><div class='alert alert-success'>" + data.answer + "<br><br>" + data.team.name + " now has $" + data.team.points + "</div>")
       else
+        self.playSoundEffect("http://soundfxnow.com/soundfx/Buzzer2.mp3")
         $("#question").append("<br><br><div class='alert alert-error'>Sorry, the correct question was: " + data.answer + "<br><br>" + data.team.name + " now has $" + data.team.points + "</div>")
       self.updatePoints team for team in data.teams
 
@@ -46,4 +56,7 @@ window.Board =
 
   updatePoints: (team) ->
     $("#team-" + team.id + "-points").html(team.points + " points")
+
+  playSoundEffect: (url) ->
+    $("body").append('<embed height="0" width="0" src="' + url + '">')
     

@@ -1,37 +1,40 @@
 <div id="game-controls" align="center">
-  <%= link_to "Start Game", admin_command_center_game_path, :method => :create, :class => "btn btn-primary btn-large btn-success" unless $game_on %>
-  <%= link_to "Start Final Jeopardy", admin_command_center_game_path, :method => :create, :class => "btn btn-primary btn-large btn-success" if $game_on %>
-  <%= link_to "End Game", admin_command_center_game_path, :method => :delete, :class => "btn btn-primary btn-large btn-danger" if $game_on %>
+  <%= link_to "Play Game Music", play_game_music_admin_command_center_game_path, :method => :create, :class => "btn btn-primary btn-large btn-info" %>
+  <%= link_to "Start Game", admin_command_center_game_path, :method => :create, :class => "btn btn-primary btn-large btn-success" unless game_on? %>
+  <%= link_to "Start Final Jeopardy", admin_command_center_game_path, :method => :create, :class => "btn btn-primary btn-large btn-success" if game_on? %>
+  <%= link_to "End Game", admin_command_center_game_path, :method => :delete, :class => "btn btn-primary btn-large btn-danger" if game_on? %>
 </div>
 
-<table id="board">
-  <thead>
-    <tr>
-      <% @topics.each_with_index do |topic, index| %>
-        <th><%= link_to "Show Topic #{index + 1} (#{topic.name})", admin_command_center_topic_path(:id => topic.id) %><br></th>
-      <% end %>
-    </tr>
-  </thead>
-  <tbody>
-    <% 5.times do |i| %>
+<% if game_on? %>
+  <table id="board">
+    <thead>
       <tr>
-        <% @topics.each do |topic| %>
-          <td>
-            <div>
-              <% question =  topic.question_for_value((i + 1) * 100) %>
-              <% unless question.answered? %>
-              <%= link_to "$#{((i + 1) * 100)}", admin_command_center_question_path(topic.question_for_value((i + 1) * 100)), :id => "question-#{question.id}", :class => "colorbox" %>
-              <% end %>
-            </div>
-          </td>
+        <% @topics.each_with_index do |topic, index| %>
+          <th><%= link_to "Show Topic #{index + 1} (#{topic.name})", admin_command_center_topic_path(:id => topic.id) %><br></th>
         <% end %>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      <% 5.times do |i| %>
+        <tr>
+          <% @topics.each do |topic| %>
+            <td>
+              <div>
+                <% question =  topic.question_for_value((i + 1) * 100) %>
+                <% unless question.answered? %>
+                <%= link_to "$#{((i + 1) * 100)}", admin_command_center_question_path(topic.question_for_value((i + 1) * 100)), :id => "question-#{question.id}", :class => "colorbox" %>
+                <% end %>
+              </div>
+            </td>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 
-<script type="text/javascript" charset="utf-8">
-  $(function () {
-    CommandCenter.init();
-  });
-</script>
+  <script type="text/javascript" charset="utf-8">
+    $(function () {
+      CommandCenter.init();
+    });
+  </script>
+<% end %>

@@ -29,7 +29,7 @@
             <td>
               <div>
                 <% question =  topic.question_for_value((i + 1) * 100) %>
-                <% unless question.answered? %>
+                <% unless question.answered? && game_on? %>
                 <div id="question-<%= question.id %>">$<%= question.value %></div>
                 <% end %>
               </div>
