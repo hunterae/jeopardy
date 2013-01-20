@@ -1,0 +1,6 @@
+<%= simple_form_for @question, :url => admin_question_path(@question) do |form| %>
+  <%= form.input :text, :input_html => { :style => "width:400px" }%>
+  <%= form.input :answer, :input_html => { :style => "width:400px" } %>
+  <%= form.input :daily_double %>
+  <%= form.submit %>
+<% end %>

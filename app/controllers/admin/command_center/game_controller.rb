@@ -8,7 +8,9 @@ class Admin::CommandCenter::GameController < ApplicationController
   end
 
   def destroy
+    Question.update_all(:answered => false)
     $game_on = nil
+    Pusher['jeopardy'].trigger('end-game', {})
     redirect_to admin_command_center_root_path
   end
 end

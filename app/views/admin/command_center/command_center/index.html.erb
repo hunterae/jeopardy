@@ -1,6 +1,7 @@
 <div id="game-controls" align="center">
-  <%= link_to "Start Game", admin_command_center_game_path, :method => :create, :class => "btn btn-primary btn-large btn-success" %>
-  <%= link_to "End Game", admin_command_center_game_path, :method => :delete, :class => "btn btn-primary btn-large btn-danger" %>
+  <%= link_to "Start Game", admin_command_center_game_path, :method => :create, :class => "btn btn-primary btn-large btn-success" unless $game_on %>
+  <%= link_to "Start Final Jeopardy", admin_command_center_game_path, :method => :create, :class => "btn btn-primary btn-large btn-success" if $game_on %>
+  <%= link_to "End Game", admin_command_center_game_path, :method => :delete, :class => "btn btn-primary btn-large btn-danger" if $game_on %>
 </div>
 
 <table id="board">
@@ -17,7 +18,10 @@
         <% @topics.each do |topic| %>
           <td>
             <div>
-              <%= link_to "$#{((i + 1) * 100)}", admin_command_center_question_path(topic.question_for_value((i + 1) * 100)) %>
+              <% question =  topic.question_for_value((i + 1) * 100) %>
+              <% unless question.answered? %>
+              <%= link_to "$#{((i + 1) * 100)}", admin_command_center_question_path(topic.question_for_value((i + 1) * 100)), :id => "question-#{question.id}", :class => "colorbox" %>
+              <% end %>
             </div>
           </td>
         <% end %>
@@ -26,29 +30,8 @@
   </tbody>
 </table>
 
-<table id="teams">
-  <tr>
-    <% @teams.each do |team| %>
-      <th><b><%= team.name %></b></th>
-    <% end %>
-  </tr>
-  <tr>
-    <% @teams.each do |team| %>
-      <td><span class="label label-inverse"><%= "#{pluralize team.points, "points"}" %></span></td>
-    <% end %>
-  </tr>
-  <tr>
-    <% @teams.each do |team| %>
-      <td>
-        <%= link_to "Correct", admin_command_center_topic_path(:id => team.id), :class => "btn btn-primary btn-large btn-success", :style => "width: 50px" %>
-      </td>
-    <% end %>
-  </tr>
-  <tr>
-    <% @teams.each do |team| %>
-      <td>
-        <%= link_to "Wrong", admin_command_center_topic_path(:id => team.id), :class => "btn btn-primary btn-large btn-danger", :style => "width: 50px" %>
-      </td>
-    <% end %>
-  </tr>
-</table>
+<script type="text/javascript" charset="utf-8">
+  $(function () {
+    CommandCenter.init();
+  });
+</script>

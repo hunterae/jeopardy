@@ -1,0 +1,24 @@
+<table id="board" class="winner">
+  <tr>
+    <td>
+      <% if @winning_teams.length > 1 %>
+        We have a tie!
+      <% else %>
+        We have a winner!
+      <% end %>
+    </h1>
+  </tr>
+  <% @winning_teams.each do |winning_team| %>
+  <tr>
+    <td>
+      <%= winning_team.name %> with $<%= winning_team.points %>
+    </td>
+  </tr>
+  <% end %>
+</table>
+
+<script type="text/javascript" charset="utf-8">
+  $(function () {
+    Board.resizeBoard();
+  });
+</script>

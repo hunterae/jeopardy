@@ -1,0 +1,5 @@
+<%= simple_form_for @team, :url => admin_team_path(@team) do |form| %>
+  <%= form.input :name, :input_html => { :style => "width:400px" }%>
+  <%= form.input :quote, :input_html => { :style => "width:400px" }%>
+  <%= form.submit %>
+<% end %>

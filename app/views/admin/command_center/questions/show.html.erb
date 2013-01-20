@@ -2,18 +2,62 @@
 <p>
   <%= @question.text %>
 </p>
-<br><br>
 <b>Answer:</b>
 <p>
   <%= @question.answer %>
 </p>
-<br><br>
-<%= form_for @question, :url => admin_command_center_question_answers_path(@question), :method => :create do %>
-  <%= hidden_field_tag :correct_answer, true %>
-  <%= submit_tag "Answered Correctly" %>
-<% end %>
-<br><br><br>
-<%= form_for @question, :url => admin_command_center_question_answers_path(@question), :method => :create do %>
-  <%= hidden_field_tag :correct_answer, false %>
-  <%= submit_tag "Answered Wrong" %>
-<% end %>
+<b>Value</b>
+<p>
+  $<%= @question.value %>
+</p>
+
+<table class="teams">
+  <tr>
+    <% @teams.first(9).each do |team| %>
+      <th><b><%= team.name %></b></th>
+    <% end %>
+  </tr>
+  <tr>
+    <% @teams.first(9).each do |team| %>
+      <td><span class="label label-inverse"><%= "#{pluralize team.points, "points"}" %></span></td>
+    <% end %>
+  </tr>
+  <tr>
+    <% @teams.first(9).each do |team| %>
+      <td>
+        <%= link_to "Correct", admin_command_center_question_team_answer_path(@question, team, :correct_answer => true), :class => "btn btn-primary btn-large btn-success", :style => "width: 50px", :method => :post %>
+      </td>
+    <% end %>
+  </tr>
+  <tr>
+    <% @teams.first(9).each do |team| %>
+      <td>
+        <%= link_to "Wrong", admin_command_center_question_team_answer_path(@question, team), :class => "btn btn-primary btn-large btn-danger", :style => "width: 50px", :method => :post %>
+      </td>
+    <% end %>
+  </tr>
+  <tr>
+    <% @teams.last(9).each do |team| %>
+      <th><br><br><b><%= team.name %></b></th>
+    <% end %>
+  </tr>
+  <tr>
+    <% @teams.last(9).each do |team| %>
+      <td><span class="label label-inverse"><%= "#{pluralize team.points, "points"}" %></span></td>
+    <% end %>
+  </tr>
+  <tr>
+    <% @teams.last(9).each do |team| %>
+      <td>
+        <%= link_to "Correct", admin_command_center_question_team_answer_path(@question, team, :correct_answer => true), :class => "btn btn-primary btn-large btn-success", :style => "width: 50px", :method => :post %>
+      </td>
+    <% end %>
+  </tr>
+  <tr>
+    <% @teams.last(9).each do |team| %>
+      <td>
+        <%= link_to "Wrong", admin_command_center_question_team_answer_path(@question, team), :class => "btn btn-primary btn-large btn-danger", :style => "width: 50px", :method => :post %>
+      </td>
+    <% end %>
+  </tr>
+</table>

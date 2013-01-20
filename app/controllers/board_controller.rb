@@ -1,6 +1,6 @@
 class BoardController < ApplicationController
   def show
     @topics = Topic.includes(:questions)
-    @teams = Team.all
+    @teams = Team.order("`order` asc")
   end
 end

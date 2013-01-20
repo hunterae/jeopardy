@@ -1,0 +1,4 @@
+<%= simple_form_for @topic, :url => admin_topic_path(@topic) do |form| %>
+  <%= form.input :name, :input_html => { :style => "width:400px" }%>
+  <%= form.submit %>
+<% end %>

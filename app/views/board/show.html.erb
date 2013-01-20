@@ -1,42 +1,58 @@
 <%= image_tag "jeopardy_title.jpg", :width => "100%", :id => "title-image" unless game_on? %>
 
-<table id="board" style="<%= "display:none" unless game_on? %>">
-  <thead>
+<div id="dashboard" style="<%= "display:none" unless game_on? %>">
+  <table class="teams">
     <tr>
-      <% @topics.each do |topic| %>
-        <th><span id="topic-<%= topic.id %>" style="<%= "display:none" unless game_on? %>"><%= topic.name %></span>&nbsp;</th>
+      <% @teams.first(9).each do |team| %>
+        <th><b><%= team.name %></b></th>
       <% end %>
     </tr>
-  </thead>
-  <tbody>
-    <% 5.times do |i| %>
+    <tr>
+      <% @teams.first(9).each do |team| %>
+        <td><span class="label label-inverse" id="team-<%= team.id %>-points"><%= "#{pluralize team.points, "points"}" %></span></td>
+      <% end %>
+    </tr>
+  </table>
+
+  <table id="board">
+    <thead>
       <tr>
         <% @topics.each do |topic| %>
-          <td>
-            <div>
-              <% question =  topic.question_for_value((i + 1) * 100) %>
-              <div id="question-<%= question.id %>">$<%= question.value %></div>
-            </div>
-          </td>
+          <th><span id="topic-<%= topic.id %>" style="<%= "display:none" unless game_on? %>"><%= topic.name %></span>&nbsp;</th>
         <% end %>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      <% 5.times do |i| %>
+        <tr>
+          <% @topics.each do |topic| %>
+            <td>
+              <div>
+                <% question =  topic.question_for_value((i + 1) * 100) %>
+                <% unless question.answered? %>
+                <div id="question-<%= question.id %>">$<%= question.value %></div>
+                <% end %>
+              </div>
+            </td>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 
-<table id="teams" style="<%= "display:none" unless game_on? %>">
-  <tr>
-    <% @teams.each do |team| %>
-      <th><b><%= team.name %></b></th>
-    <% end %>
-  </tr>
-  <tr>
-    <% @teams.each do |team| %>
-      <td><span class="label label-inverse"><%= "#{pluralize team.points, "points"}" %></span></td>
-    <% end %>
-  </tr>
-</table>
-
+  <table class="teams">
+    <tr>
+      <% @teams.last(9).each do |team| %>
+        <th><b><%= team.name %></b></th>
+      <% end %>
+    </tr>
+    <tr>
+      <% @teams.last(9).each do |team| %>
+        <td><span class="label label-inverse" id="team-<%= team.id %>-points"><%= "#{pluralize team.points, "points"}" %></span></td>
+      <% end %>
+    </tr>
+  </table>
+</div>
 <script type="text/javascript" charset="utf-8">
   $(function () {
     Board.init();

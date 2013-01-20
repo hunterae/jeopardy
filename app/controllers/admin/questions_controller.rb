@@ -1,12 +1,25 @@
 class Admin::QuestionsController < ApplicationController
-  def trigger_question
-    @question = Question.find(params[:id])
-    Pusher['jeopardy'].trigger('show-question', {:id => @question.id, :text => @question.text})
+  before_filter :load_question, :only => [:edit, :update, :set_as_daily_double]
+
+  def index
+    @topics = Topic.order("topics.order").includes(:questions)
   end
 
-  def trigger_answer
+  def edit
+  end
+
+  def update
+    @question.update_attributes(params[:question])
+    redirect_to admin_questions_path
+  end
+
+  def set_as_daily_double
+    @question.set_as_daily_double
+    redirect_to admin_questions_path
+  end
+  
+  private
+  def load_question
     @question = Question.find(params[:id])
-    Pusher['jeopardy'].trigger('show-answer', {:answer => @question.answer, :correct_answer => params[:correct_answer]})
-    redirect_to admin_dashboard_path
   end
 end

@@ -1,0 +1,12 @@
+<%= table_for @topics, :scope => :admin, :table_html => {:id => "board"} do |table| %>
+  <% table.column :edit %>
+  <% table.column :name %>
+  <% table.column :position do |topic| %>
+    <% if @topics.index(topic) != 0 %>
+      <%= link_to "↑", move_up_admin_topic_path(topic) %>
+    <% end %>
+    <% if @topics.index(topic) != @topics.length - 1 %>
+      <%= link_to "↓", move_down_admin_topic_path(topic) %>
+    <% end %>
+  <% end %>
+<% end %>
