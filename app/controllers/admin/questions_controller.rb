@@ -2,7 +2,6 @@ class Admin::QuestionsController < ApplicationController
   before_filter :load_question, :only => [:edit, :update, :set_as_daily_double]
 
   def index
-    @topics = Topic.order("topics.order").includes(:questions)
   end
 
   def edit

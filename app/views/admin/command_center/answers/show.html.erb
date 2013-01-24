@@ -1,14 +1,10 @@
-<% if @close_window %>
-  <script type="text/javascript" charset="utf-8">
-    parent.$.colorbox.close();
-  </script>
-<% else %>
-  <script type="text/javascript" charset="utf-8">
-    parent.$("#question-<%= @question.id %>").html("");
-  </script>
-  <h2>
-    <%= @team.name %> has been <%= params[:correct_answer] ? "awarded" : "deducted" %> <%= @question.value %> points.<br>
-    and now has a total of <%= @team.points %>
-  </h2>
-  <%= link_to "Close Window", admin_command_center_question_team_answer_path(@question, @team), :class => "btn btn-primary btn-large btn-success", :method => :delete %>
-<% end %>
+<script type="text/javascript" charset="utf-8">
+  $(function() {
+    Answers.init(<%= @question.id %>);
+  });
+</script>
+<h2>
+  <%= @team.name %> has been <%= @correct_answer ? "awarded" : "deducted" %> $<%= @points %><br>
+  and now has a total of $<%= @team.points %>
+</h2>
+<%= link_to "Close Window", "#", :class => "btn btn-primary btn-large btn-success", :id => "close-question" %>

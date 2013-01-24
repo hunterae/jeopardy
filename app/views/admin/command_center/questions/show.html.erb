@@ -1,63 +1,95 @@
-<b>Question:</b>
-<p>
-  <%= @question.text %>
-</p>
-<b>Answer:</b>
-<p>
-  <%= @question.answer %>
-</p>
-<b>Value</b>
-<p>
-  $<%= @question.value %>
-</p>
+<script type="text/javascript" charset="utf-8">
+  $(function() {
+    Questions.init();
+    <% if @question.daily_double? %>
+      Questions.initDailyDouble();
+    <% end %>
+  });
+</script>
 
-<table class="teams">
-  <tr>
-    <% @teams.first(9).each do |team| %>
-      <th><b><%= team.name %></b></th>
-    <% end %>
-  </tr>
-  <tr>
-    <% @teams.first(9).each do |team| %>
-      <td><span class="label label-inverse"><%= "#{pluralize team.points, "points"}" %></span></td>
-    <% end %>
-  </tr>
-  <tr>
-    <% @teams.first(9).each do |team| %>
-      <td>
-        <%= link_to "Correct", admin_command_center_question_team_answer_path(@question, team, :correct_answer => true), :class => "btn btn-primary btn-large btn-success", :style => "width: 50px", :method => :post %>
-      </td>
-    <% end %>
-  </tr>
-  <tr>
-    <% @teams.first(9).each do |team| %>
-      <td>
-        <%= link_to "Wrong", admin_command_center_question_team_answer_path(@question, team), :class => "btn btn-primary btn-large btn-danger", :style => "width: 50px", :method => :post %>
-      </td>
-    <% end %>
-  </tr>
-  <tr>
-    <% @teams.last(9).each do |team| %>
-      <th><br><br><b><%= team.name %></b></th>
-    <% end %>
-  </tr>
-  <tr>
-    <% @teams.last(9).each do |team| %>
-      <td><span class="label label-inverse"><%= "#{pluralize team.points, "points"}" %></span></td>
-    <% end %>
-  </tr>
-  <tr>
-    <% @teams.last(9).each do |team| %>
-      <td>
-        <%= link_to "Correct", admin_command_center_question_team_answer_path(@question, team, :correct_answer => true), :class => "btn btn-primary btn-large btn-success", :style => "width: 50px", :method => :post %>
-      </td>
-    <% end %>
-  </tr>
-  <tr>
-    <% @teams.last(9).each do |team| %>
-      <td>
-        <%= link_to "Wrong", admin_command_center_question_team_answer_path(@question, team), :class => "btn btn-primary btn-large btn-danger", :style => "width: 50px", :method => :post %>
-      </td>
-    <% end %>
-  </tr>
-</table>
+<% if @question.daily_double? %>
+  <h2>Daily Double</h2>
+
+  <% unless params[:show_question] %>
+    <%= link_to "Show Question", admin_command_center_question_path(@question, :show_question => true), :class => "btn btn-primary btn-large btn-success" %>
+  <% end %>
+<% end %>
+
+<% unless @question.daily_double? && !params[:show_question] %>
+
+  <b>Question:</b>
+  <p>
+    <%= @question.text %>
+  </p>
+  <b>Answer:</b>
+  <p>
+    <%= @question.answer %>
+  </p>
+  <% if @question.other_answers %>
+    <b>Other Possible Answers:</b>
+    <p>
+      <%= @question.other_answers %>
+    </p>
+  <% end %>
+  <b>Value</b>
+  <p>
+    $<%= @question.value %>
+  </p>
+
+  <% if @question.daily_double? %>
+    <b>Wager</b>
+    <%= text_field_tag :wager %>
+  <% end %>
+
+  <table class="teams">
+    <tr>
+      <% @teams.first(9).each do |team| %>
+        <th><b><%= team.name %></b></th>
+      <% end %>
+    </tr>
+    <tr>
+      <% @teams.first(9).each do |team| %>
+        <td><span class="label label-inverse"><%= "#{pluralize team.points, "points"}" %></span></td>
+      <% end %>
+    </tr>
+    <tr>
+      <% @teams.first(9).each do |team| %>
+        <td>
+          <%= link_to "Correct", admin_command_center_question_team_answer_path(@question, team, :correct_answer => true), :class => "btn btn-primary btn-large btn-success correct", :style => "width: 50px", :method => :post %>
+        </td>
+      <% end %>
+    </tr>
+    <tr>
+      <% @teams.first(9).each do |team| %>
+        <td>
+          <%= link_to "Wrong", admin_command_center_question_team_answer_path(@question, team, :correct_answer => false), :class => "btn btn-primary btn-large btn-danger wrong", :style => "width: 50px", :method => :post %>
+        </td>
+      <% end %>
+    </tr>
+    <tr>
+      <% @teams.last(9).each do |team| %>
+        <th><br><br><b><%= team.name %></b></th>
+      <% end %>
+    </tr>
+    <tr>
+      <% @teams.last(9).each do |team| %>
+        <td><span class="label label-inverse"><%= "#{pluralize team.points, "points"}" %></span></td>
+      <% end %>
+    </tr>
+    <tr>
+      <% @teams.last(9).each do |team| %>
+        <td>
+          <%= link_to "Correct", admin_command_center_question_team_answer_path(@question, team, :correct_answer => true), :class => "btn btn-primary btn-large btn-success correct", :style => "width: 50px", :method => :post %>
+        </td>
+      <% end %>
+    </tr>
+    <tr>
+      <% @teams.last(9).each do |team| %>
+        <td>
+          <%= link_to "Wrong", admin_command_center_question_team_answer_path(@question, team, :correct_answer => false), :class => "btn btn-primary btn-large btn-danger wrong", :style => "width: 50px", :method => :post %>
+        </td>
+      <% end %>
+    </tr>
+  </table>
+
+<% end %>

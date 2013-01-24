@@ -1,6 +1,6 @@
-<table id="board" class="winner">
+<table class="board winner">
   <tr>
-    <td>
+    <td colspan="2">
       <% if @winning_teams.length > 1 %>
         We have a tie!
       <% else %>
@@ -12,6 +12,9 @@
   <tr>
     <td>
       <%= winning_team.name %> with $<%= winning_team.points %>
+    </td>
+    <td>
+      "<%= winning_team.quote %>"
     </td>
   </tr>
   <% end %>

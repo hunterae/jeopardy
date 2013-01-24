@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130120194839) do
+ActiveRecord::Schema.define(:version => 20130123130656) do
 
   create_table "games", :force => true do |t|
     t.boolean  "started",    :default => false
@@ -27,8 +27,10 @@ ActiveRecord::Schema.define(:version => 20130120194839) do
     t.boolean  "daily_double"
     t.integer  "topic_id"
     t.boolean  "answered"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+    t.string   "mode"
+    t.text     "other_answers"
   end
 
   create_table "teams", :force => true do |t|
@@ -45,6 +47,7 @@ ActiveRecord::Schema.define(:version => 20130120194839) do
     t.integer  "order"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.string   "mode"
   end
 
 end

@@ -1,4 +1,4 @@
-<%= table_for @topics, :scope => :admin, :table_html => {:id => "board"} do |table| %>
+<%= table_for @topics, :scope => :admin, :table_html => {:class => "board"} do |table| %>
   <% table.column :edit %>
   <% table.column :name %>
   <% table.column :position do |topic| %>

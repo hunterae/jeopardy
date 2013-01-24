@@ -1,7 +1,8 @@
-<table id="board" class="questions">
+<h2>Single Jeopardy</h2>
+<table class="board questions">
   <thead>
     <tr>
-      <% @topics.each_with_index do |topic, index| %>
+      <% ordered_topics_for_mode(Game::SINGLE_JEOPARDY).each_with_index do |topic, index| %>
         <th><%= topic.name %></th>
       <% end %>
     </tr>
@@ -9,11 +10,11 @@
   <tbody>
     <% 5.times do |i| %>
       <tr>
-        <% @topics.each do |topic| %>
+        <% topics_with_questions(Game::SINGLE_JEOPARDY).each do |topic| %>
           <td>
             <div>
               <% question =  topic.question_for_value((i + 1) * 100) %>
-              <%= link_to "$#{((i + 1) * 100)}", edit_admin_question_path(question), :id => "question-#{question.id}", :class => "colorbox" %>
+              <%= link_to "$#{question.value}", edit_admin_question_path(question), :id => "question-#{question.id}", :class => "colorbox" %>
               <% if question.daily_double? %>
                 (Daily Double)
               <% else %>
@@ -27,8 +28,32 @@
   </tbody>
 </table>
 
-<script type="text/javascript" charset="utf-8">
-  $(function () {
-    Board.resizeBoard();
-  });
-</script>
+<h2>Double Jeopardy</h2>
+<table class="board questions">
+  <thead>
+    <tr>
+      <% ordered_topics_for_mode(Game::DOUBLE_JEOPARDY).each_with_index do |topic, index| %>
+        <th><%= topic.name %></th>
+      <% end %>
+    </tr>
+  </thead>
+  <tbody>
+    <% 5.times do |i| %>
+      <tr>
+        <% topics_with_questions(Game::DOUBLE_JEOPARDY).each do |topic| %>
+          <td>
+            <div>
+              <% question =  topic.question_for_value((i + 1) * 200) %>
+              <%= link_to "$#{question.value}", edit_admin_question_path(question), :id => "question-#{question.id}", :class => "colorbox" %>
+              <% if question.daily_double? %>
+                (Daily Double)
+              <% else %>
+                <%= link_to "(Set as Daily Double)", set_as_daily_double_admin_question_path(question) %>
+              <% end %>
+            </div>
+          </td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

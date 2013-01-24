@@ -14,7 +14,18 @@ topic6 = Topic.create!(:name => "Topic 6", :order => 5)
   topics.each do |topic|
     topic.questions.create!(:text => "Question for #{topic.name} with value $#{(i + 1) * 100}",
                             :answer => "Answer for #{topic.name} with value $#{(i + 1) * 100}",
-                            :value => ((i + 1) * 100))
+                            :value => ((i + 1) * 100),
+                            :mode => Game::SINGLE_JEOPARDY)
+  end
+end
+
+5.times do |i|
+  topics = [topic1, topic2, topic3, topic4, topic5, topic6]
+  topics.each do |topic|
+    topic.questions.create!(:text => "Question for #{topic.name} with value $#{(i + 1) * 200}",
+                            :answer => "Answer for #{topic.name} with value $#{(i + 1) * 200}",
+                            :value => ((i + 1) * 200),
+                            :mode => Game::DOUBLE_JEOPARDY)
   end
 end
 
@@ -30,12 +41,9 @@ Team.create!(:name => "Amy Fisher", :order => 8, :quote => "I wanted to do somet
 Team.create!(:name => "Nelson Mandela", :order => 9, :quote => "It is better to lead from behind and to put others in front")
 Team.create!(:name => "Tupac Shakur", :order => 10, :quote => "Only God Can Judge Me")
 Team.create!(:name => "Dr. Kevorkian", :order => 11, :quote => "Let's hope you feel better now")
-Team.create!(:name => "Dolly", :order => 11, :quote => "Baaahhhhhhhh")
-Team.create!(:name => "Kurt Cobain", :order => 12, :quote => "I'd rather be hated for who I am, than loved for who I am not. ")
-Team.create!(:name => "Tiger Woods", :order => 13, :quote => "As you all know, I'm kind of a perfectionist.")
-Team.create!(:name => "Fiona Apple", :order => 14, :quote => "This world is [bull]")
-Team.create!(:name => "Michael Jordan", :order => 15, :quote => "Just play. Have fun. Enjoy the game.")
-Team.create!(:name => "Matt Stone", :order => 16, :quote => "At this point, we've ripped on everyone.")
+Team.create!(:name => "Dolly", :order => 12, :quote => "Baaahhhhhhhh")
+Team.create!(:name => "Kurt Cobain", :order => 13, :quote => "I'd rather be hated for who I am, than loved for who I am not. ")
+Team.create!(:name => "Tiger Woods", :order => 14, :quote => "As you all know, I'm kind of a perfectionist.")
+Team.create!(:name => "Fiona Apple", :order => 15, :quote => "This world is [bull]")
+Team.create!(:name => "Michael Jordan", :order => 16, :quote => "Just play. Have fun. Enjoy the game.")
 Team.create!(:name => "Matt Groening", :order => 17, :quote => "Cartooning is for people who can't quite draw and can't quite write.")
-
-6.times {|i| Team.create!(:name => "Team #{13 + i}", :order => 12 + i)}

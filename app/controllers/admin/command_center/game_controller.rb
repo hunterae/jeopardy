@@ -6,9 +6,20 @@ class Admin::CommandCenter::GameController < ApplicationController
     Pusher['jeopardy'].trigger('start-game', {})
     redirect_to admin_command_center_root_path
   end
-  
+
+  def update
+    game.update_attributes(:mode => params[:mode])
+    Pusher['jeopardy'].trigger('update-game', :mode => params[:mode])
+    redirect_to admin_command_center_root_path
+  end
+
   def play_game_music
     Pusher['jeopardy'].trigger('play-game-music', {})
+    redirect_to admin_command_center_root_path
+  end
+
+  def play_game_timer
+    Pusher['jeopardy'].trigger('play-game-timer', {})
     redirect_to admin_command_center_root_path
   end
 

@@ -18,12 +18,13 @@ Jeopardy::Application.routes.draw do
       end
     end
     namespace :command_center do
-      resource :game, :controller => "game", :only => [:create, :destroy] do
+      resource :game, :controller => "game", :only => [:create, :destroy, :update] do
         collection do
           post :play_game_music
+          post :play_game_timer
         end
       end
-      resources :questions, :only => [:show] do
+      resources :questions, :only => [:show, :destroy] do
         resources :teams, :only => [] do
           resource :answer, :only => [:create, :destroy]
         end

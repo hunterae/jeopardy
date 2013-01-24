@@ -1,3 +1,16 @@
-# Place all the behaviors and hooks related to the matching controller here.
-# All this logic will automatically be available in application.js.
-# You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
+window.Questions =
+  init: ->
+    originalClose = parent.$.colorbox.close
+    parent.$.colorbox.close = ->
+      $.ajax(type: "DELETE", url: window.location)
+      parent.$.colorbox.close = originalClose
+      originalClose()
+  initDailyDouble: ->
+    $(".wrong, .correct").click ->
+      element = $(this)
+      wager = $("#wager").val()
+      if !wager
+        alert "Please enter a wager"
+        return false
+      element.attr("href", element.attr("href") + "&wager=" + wager)
+      true
