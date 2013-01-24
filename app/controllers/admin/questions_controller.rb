@@ -1,6 +1,11 @@
 class Admin::QuestionsController < ApplicationController
   before_filter :load_question, :only => [:edit, :update, :set_as_daily_double]
 
+  def create
+    Question.import_from_csv(params[:file].read)
+    redirect_to admin_questions_path
+  end
+
   def index
   end
 

@@ -1,3 +1,9 @@
+<%= form_tag admin_questions_path, :multipart => true do %>
+  <h2>Upload file</h2>
+  <%= file_field_tag :file, :class => "fileupload fileupload-new" %>
+  <%= submit_tag %>
+<% end %>
+
 <h2>Single Jeopardy</h2>
 <table class="board questions">
   <thead>

@@ -15,19 +15,17 @@ class Question < ActiveRecord::Base
     options = []
     Topic.destroy_all
     Question.destroy_all
-    csv = CSV.open(csv_file, "r") do |csv|
-      csv.each do |row|
-        topic_name = get_csv_value(row[0])
-        question = get_csv_value(row[1])
-        answer = get_csv_value(row[2])
-        value = get_csv_value(row[3])
-        mode = get_csv_value(row[4])
-        other_answers = get_csv_value(row[5])
-        daily_double = get_csv_value(row[6]) == "TRUE"
+    csv = CSV.parse(csv_file) do |row|
+      topic_name = get_csv_value(row[0])
+      question = get_csv_value(row[1])
+      answer = get_csv_value(row[2])
+      value = get_csv_value(row[3])
+      mode = get_csv_value(row[4])
+      other_answers = get_csv_value(row[5])
+      daily_double = get_csv_value(row[6]) == "TRUE"
 
-        topic = Topic.find_or_create_by_name_and_mode(topic_name, mode)
-        topic.questions.create(:mode => mode, :text => question, :answer => answer, :value => value, :daily_double => daily_double, :other_answers => other_answers)
-      end
+      topic = Topic.find_or_create_by_name_and_mode(topic_name, mode)
+      topic.questions.create(:mode => mode, :text => question, :answer => answer, :value => value, :daily_double => daily_double, :other_answers => other_answers)
     end
   end
 
