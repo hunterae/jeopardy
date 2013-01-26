@@ -10,9 +10,16 @@
 <% if @question.daily_double? %>
   <h2>Daily Double</h2>
 
-  <% unless params[:show_question] %>
-    <%= link_to "Show Question", admin_command_center_question_path(@question, :show_question => true), :class => "btn btn-primary btn-large btn-success" %>
+  <% if @question.daily_double? %>
+    <b>Wager</b>
+    <%= text_field_tag :wager, params[:wager] %>
+    <br>
   <% end %>
+
+  <% unless params[:show_question] %>
+    <%= link_to "Show Question", admin_command_center_question_path(@question, :show_question => true), :class => "btn btn-primary btn-large btn-success", :id => "show-question" %>
+  <% end %>
+
 <% end %>
 
 <% unless @question.daily_double? && !params[:show_question] %>
@@ -35,11 +42,6 @@
   <p>
     $<%= @question.value %>
   </p>
-
-  <% if @question.daily_double? %>
-    <b>Wager</b>
-    <%= text_field_tag :wager %>
-  <% end %>
 
   <table class="teams">
     <tr>

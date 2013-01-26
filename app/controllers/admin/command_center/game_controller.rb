@@ -23,6 +23,11 @@ class Admin::CommandCenter::GameController < ApplicationController
     redirect_to admin_command_center_root_path
   end
 
+  def stop_game_music
+    Pusher['jeopardy'].trigger('stop-game-music', {})
+    redirect_to admin_command_center_root_path
+  end
+
   def destroy
     Question.update_all(:answered => false)
     game.update_attributes(:started => false, :mode => Game::SINGLE_JEOPARDY)

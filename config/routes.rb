@@ -22,8 +22,10 @@ Jeopardy::Application.routes.draw do
         collection do
           post :play_game_music
           post :play_game_timer
+          post :stop_game_music
         end
       end
+      resources :teams
       resources :questions, :only => [:show, :destroy] do
         resources :teams, :only => [] do
           resource :answer, :only => [:create, :destroy]

@@ -6,7 +6,7 @@ window.Questions =
       parent.$.colorbox.close = originalClose
       originalClose()
   initDailyDouble: ->
-    $(".wrong, .correct").click ->
+    $(".wrong, .correct, #show-question").click ->
       element = $(this)
       wager = $("#wager").val()
       if !wager

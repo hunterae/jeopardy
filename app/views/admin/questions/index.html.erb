@@ -20,6 +20,7 @@
           <td>
             <div>
               <% question =  topic.question_for_value((i + 1) * 100) %>
+              <% raise "#{(i + 1) * 100} #{topic.name}" unless question %>
               <%= link_to "$#{question.value}", edit_admin_question_path(question), :id => "question-#{question.id}", :class => "colorbox" %>
               <% if question.daily_double? %>
                 (Daily Double)
@@ -63,3 +64,6 @@
     <% end %>
   </tbody>
 </table>
+
+<h2>Final Jeopardy</h2>
+<%= link_to "#{final_jeopardy_question.text}", edit_admin_question_path(final_jeopardy_question), :id => "question-#{final_jeopardy_question.id}", :class => "colorbox" %>

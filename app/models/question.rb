@@ -23,6 +23,7 @@ class Question < ActiveRecord::Base
       mode = get_csv_value(row[4])
       other_answers = get_csv_value(row[5])
       daily_double = get_csv_value(row[6]) == "TRUE"
+      next unless topic_name
 
       topic = Topic.find_or_create_by_name_and_mode(topic_name, mode)
       topic.questions.create(:mode => mode, :text => question, :answer => answer, :value => value, :daily_double => daily_double, :other_answers => other_answers)

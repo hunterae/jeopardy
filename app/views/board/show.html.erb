@@ -1,7 +1,7 @@
 <%= image_tag "jeopardy_title.jpg", :width => "100%", :id => "title-image" unless game_on? %>
 
 <div id="dashboard" style="<%= "display:none" unless game_on? %>">
-  <table class="teams">
+  <table class="teams" style="<%= "display:none" if final_jeopardy? %>">
     <tr>
       <% @teams.first(9).each do |team| %>
         <th><b><%= team.name %></b></th>
@@ -44,7 +44,7 @@
     <thead>
       <tr>
         <% topics_with_questions(Game::DOUBLE_JEOPARDY).each do |topic| %>
-          <th><span id="topic-<%= topic.id %>" style="<%= "display:none" unless game_on? %>"><%= topic.name %></span>&nbsp;</th>
+          <th><span id="topic-<%= topic.id %>"><%= topic.name %></span>&nbsp;</th>
         <% end %>
       </tr>
     </thead>
@@ -66,7 +66,30 @@
     </tbody>
   </table>
 
-  <table class="teams">
+  <table class="board" style="<%= "display:none" unless final_jeopardy? %>" id="final">
+    <tbody>
+      <tr>
+        <td colspan="18">
+          <%= final_jeopardy_question.topic.name %>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="18">
+          <%= image_tag "final_jeopardy.png" %>
+        </td>
+      </tr>
+      <tr class="top-teams">
+        <% @top_teams.each do |team| %>
+          <td>
+            <b><%= team.name %></b><br />
+            <span class="label label-inverse" id="team-<%= team.id %>-points"><%= "#{pluralize team.points, "points"}" %></span>
+          </td>
+        <% end %>
+      </tr>
+    </tbody>
+  </table>
+
+  <table class="teams" style="<%= "display:none" if final_jeopardy? %>">
     <tr>
       <% @teams.last(9).each do |team| %>
         <th><b><%= team.name %></b></th>
@@ -78,6 +101,9 @@
       <% end %>
     </tr>
   </table>
+</div>
+
+<div id="music">
 </div>
 <script type="text/javascript" charset="utf-8">
   $(function () {

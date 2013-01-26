@@ -15,11 +15,14 @@ window.Board =
       if data.mode == "double"
         $("#single").hide()
         $("#double").show()
+      else
+        window.location.reload()
 
     channel.bind "start-game", (data) ->
       self.playSoundEffect("http://soundfxnow.com/soundfx/Jeopardy-boardfill.mp3")
       $("#title-image").hide()
       $("#dashboard").show()
+      $("#single").show()
 
     channel.bind "out-of-time", (data) ->
       self.playSoundEffect("http://soundfxnow.com/soundfx/Jeopardy-time.mp3")
@@ -29,6 +32,9 @@ window.Board =
 
     channel.bind "play-game-timer", (data) ->
       self.playSoundEffect("http://www.soundboard.com/mediafiles/MTMxOTQ5Nzc4MTMxOTcx_FJGXeSZhwls.mp3")
+
+    channel.bind "stop-game-music", (data) ->
+      self.stopSoundEffect()
 
     channel.bind "end-game", (data) ->
       window.location = "/winner"
@@ -67,5 +73,7 @@ window.Board =
     $("#team-" + team.id + "-points").html(team.points + " points")
 
   playSoundEffect: (url) ->
-    $("body").append('<embed height="0" width="0" src="' + url + '">')
-    
+    $("body #music").html('<embed height="0" width="0" src="' + url + '">')
+
+  stopSoundEffect: ->
+    $("body #music").html('')

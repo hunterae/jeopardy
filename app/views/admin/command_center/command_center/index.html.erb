@@ -1,38 +1,52 @@
 <div id="game-controls" align="center">
   <%= link_to "Play Game Music", play_game_music_admin_command_center_game_path, :method => :create, :class => "btn btn-primary btn-large btn-info" %>
-  <%= link_to "Play Timer", play_game_timer_admin_command_center_game_path, :method => :create, :class => "btn btn-primary btn-large btn-info" %>
+  <%= link_to "Stop Music", stop_game_music_admin_command_center_game_path, :method => :create, :class => "btn btn-primary btn-large btn-info" %>
+  <%= link_to "Play Timer", play_game_timer_admin_command_center_game_path, :method => :create, :class => "btn btn-primary btn-large btn-info" if game_on? %>
   <%= link_to "Start Game", admin_command_center_game_path, :method => :create, :class => "btn btn-primary btn-large btn-success" unless game_on? %>
   <%= link_to "Start Double Jeopardy", admin_command_center_game_path(:mode => Game::DOUBLE_JEOPARDY), :method => :put, :class => "btn btn-primary btn-large btn-success" if single_jeopardy? %>
-  <%= link_to "Start Final Jeopardy", admin_command_center_game_path(:mode => Game::FINAL_JEOPARDY), :method => :put, :class => "btn btn-primary btn-large btn-success" if game_on? && !final_jeopardy? %>
-  <%= link_to "End Game", admin_command_center_game_path, :method => :delete, :class => "btn btn-primary btn-large btn-danger" if game_on? %>
+  <%= link_to "Start Final Jeopardy", admin_command_center_game_path(:mode => Game::FINAL_JEOPARDY), :method => :put, :class => "btn btn-primary btn-large btn-success" if double_jeopardy? %>
+  <%= link_to "End Game", admin_command_center_game_path, :method => :delete, :class => "btn btn-primary btn-large btn-danger" if final_jeopardy? %>
 </div>
 
 <% if game_on? %>
-  <table class="board">
-    <thead>
-      <tr>
-        <% topics_with_questions.each_with_index do |topic, index| %>
-          <th><%= link_to "Show Topic #{index + 1} (#{topic.name})", admin_command_center_topic_path(:id => topic.id) %><br></th>
-        <% end %>
-      </tr>
-    </thead>
-    <tbody>
-      <% 5.times do |i| %>
+  <% if final_jeopardy? %>
+    <% @top_teams.each do |team| %>
+      <%= form_for team, :url => admin_command_center_team_path(team) do |form| %>
+        <h2><%= team.name %> ($<%= team.points %>)</h2>
+        Wager
+        <%= form.text_field :wager, :id => "wager-#{team.id}" %>
+        <%= form.hidden_field :correct, :id => "correct-#{team.id}" %>
+        <%= form.submit "Correct", :class => "btn btn-primary btn-large btn-success correct", :team_id => team.id %>
+        <%= form.submit "Wrong", :class => "btn btn-primary btn-large btn-danger wrong", :team_id => team.id %>
+      <% end %>
+    <% end %>
+  <% else %>
+    <table class="board">
+      <thead>
         <tr>
-          <% topics_with_questions.each do |topic| %>
-            <td>
-              <div>
-                <% question =  topic.question_for_value((i + 1) * 100 * (single_jeopardy? ? 1 : 2)) %>
-                <% unless question.answered? %>
-                <%= link_to "$#{question.value}", admin_command_center_question_path(question), :id => "question-#{question.id}", :class => "colorbox" %>
-                <% end %>
-              </div>
-            </td>
+          <% topics_with_questions.each_with_index do |topic, index| %>
+            <th><%= link_to "Show Topic #{index + 1} (#{topic.name})", admin_command_center_topic_path(:id => topic.id) %><br></th>
           <% end %>
         </tr>
-      <% end %>
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        <% 5.times do |i| %>
+          <tr>
+            <% topics_with_questions.each do |topic| %>
+              <td>
+                <div>
+                  <% question =  topic.question_for_value((i + 1) * 100 * (single_jeopardy? ? 1 : 2)) %>
+                  <% unless question.answered? %>
+                  <%= link_to "$#{question.value}", admin_command_center_question_path(question), :id => "question-#{question.id}", :class => "colorbox" %>
+                  <% end %>
+                </div>
+              </td>
+            <% end %>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
 
   <script type="text/javascript" charset="utf-8">
     $(function () {

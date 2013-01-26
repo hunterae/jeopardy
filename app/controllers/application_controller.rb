@@ -12,17 +12,17 @@ class ApplicationController < ActionController::Base
   helper_method :game_on?
 
   def single_jeopardy?
-    game.mode == Game::SINGLE_JEOPARDY
+    game.mode == Game::SINGLE_JEOPARDY && game_on?
   end
   helper_method :single_jeopardy?
 
   def double_jeopardy?
-    game.mode == Game::DOUBLE_JEOPARDY
+    game.mode == Game::DOUBLE_JEOPARDY && game_on?
   end
   helper_method :double_jeopardy?
 
   def final_jeopardy?
-    game.mode == Game::FINAL_JEOPARDY
+    game.mode == Game::FINAL_JEOPARDY && game_on?
   end
   helper_method :final_jeopardy?
 end
