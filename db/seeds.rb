@@ -29,6 +29,10 @@ end
   end
 end
 
+topic6.questions.create!(:text => "Final Question",
+                        :answer => "Final Answer",
+                        :mode => Game::FINAL_JEOPARDY)
+
 Team.create!(:name => "Dan Quayle", :order => 0, :quote => "Potatoe")
 Team.create!(:name => "Marion Berry", :order => 1, :quote => "[She] set me up")
 Team.create!(:name => "Bill Clinton", :order => 2, :quote => "Depends on what your definition of is is")
