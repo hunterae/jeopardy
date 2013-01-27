@@ -10,6 +10,10 @@
 
 <% if game_on? %>
   <% if final_jeopardy? %>
+    Question:
+    <%= final_jeopardy_question.text %><br>
+    Answer:
+    <%= final_jeopardy_question.answer %>
     <% @top_teams.each do |team| %>
       <%= form_for team, :url => admin_command_center_team_path(team) do |form| %>
         <h2><%= team.name %> ($<%= team.points %>)</h2>
